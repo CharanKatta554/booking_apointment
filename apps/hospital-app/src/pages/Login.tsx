@@ -15,7 +15,20 @@ interface LoginResponse {
   access_token: string;
 }
 
-export default function Login() {
+interface User {
+  id: number;
+  email: string;
+  name: string;
+  phone: string;
+  role?: string;
+  hospitalId?: number;
+}
+
+interface LoginProps {
+  onLogin?: (user: User) => void;
+}
+
+export default function Login({ onLogin }: LoginProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -51,7 +64,13 @@ export default function Login() {
       localStorage.setItem('access_token', data.access_token);
       localStorage.setItem('user', JSON.stringify(data.user));
 
-      navigate('/dashboard');
+      // Call parent's onLogin handler to update auth state
+      if (onLogin) {
+        onLogin(data.user as User);
+      } else {
+        // Fallback navigation if onLogin not provided
+        navigate('/dashboard');
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Login failed. Please try again.');
       console.error('Login error:', err);

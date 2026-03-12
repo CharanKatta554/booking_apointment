@@ -44,6 +44,11 @@ function App() {
     setUser(null);
   };
 
+  const handleLogin = (userData: User) => {
+    setUser(userData);
+    setIsAuthenticated(true);
+  };
+
   if (loading) {
     return (
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
@@ -61,7 +66,7 @@ function App() {
             isAuthenticated ? (
               <Navigate to="/home" replace />
             ) : (
-              <Login />
+              <Login onLogin={handleLogin} />
             )
           }
         />
