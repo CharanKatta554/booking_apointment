@@ -6,6 +6,7 @@ import { HospitalsModule } from './modules/hospitals/hospitals.module';
 import { AppointmentsModule } from './modules/appointments/appointments.module';
 import { AdminModule } from './modules/admin/admin.module';
 import { NotificationsModule } from './modules/notifications/notifications.module';
+import { PrismaModule } from './modules/prisma/prisma.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { NotificationsModule } from './modules/notifications/notifications.modul
     AppointmentsModule,
     AdminModule,
     NotificationsModule,
+    PrismaModule
   ],
 })
 export class AppModule {}
