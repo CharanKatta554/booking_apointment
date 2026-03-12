@@ -1,0 +1,25 @@
+{
+  "name": "hospital-appointment-booking",
+  "version": "1.0.0",
+  "description": "Hospital Online OP Booking Web Application",
+  "author": "Your Name",
+  "license": "MIT",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "backend",
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspaces",
+    "build": "npm run build --workspaces",
+    "start": "npm run start --workspaces",
+    "test": "npm run test --workspaces",
+    "backend:dev": "npm run dev --workspace=backend",
+    "backend:build": "npm run build --workspace=backend",
+    "backend:start": "npm run start --workspace=backend",
+    "user-app:dev": "npm run dev --workspace=apps/user-app",
+    "admin-app:dev": "npm run dev --workspace=apps/admin-app",
+    "hospital-app:dev": "npm run dev --workspace=apps/hospital-app"
+  }
+}
