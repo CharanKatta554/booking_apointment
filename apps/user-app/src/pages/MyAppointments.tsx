@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Header from "../components/Header";
 
 type Hospital = {
   id: number;
@@ -56,6 +57,7 @@ export default function MyAppointments({ user, onLogout }: MyAppointmentsProps) 
 
   return (
     <div className="my-appointments">
+      <Header user={user} onLogout={onLogout} />
       <button onClick={() => navigate("/")}>Back</button>
 
       <h1>My Appointments</h1>

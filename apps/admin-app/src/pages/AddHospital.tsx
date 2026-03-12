@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Header from '../components/Header';
 
 interface User {
   id: number;
@@ -51,6 +52,7 @@ export default function AddHospital({ user, onLogout }: AddHospitalProps) {
 
   return (
     <div className="add-hospital-container">
+      <Header user={user} onLogout={onLogout} />
       <button onClick={() => navigate('/')}>Back</button>
       <h1>Add Hospital</h1>
       <form onSubmit={handleSubmit}>

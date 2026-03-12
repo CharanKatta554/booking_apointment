@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Header from "../components/Header";
 
 type Appointment = {
   id: number;
@@ -79,6 +80,7 @@ export default function AppointmentHistory({ user, onLogout }: AppointmentHistor
 
   return (
     <div className="history-container">
+      <Header user={user} onLogout={onLogout} />
       <button onClick={() => navigate("/")}>Back</button>
       <h1>Appointment History</h1>
 

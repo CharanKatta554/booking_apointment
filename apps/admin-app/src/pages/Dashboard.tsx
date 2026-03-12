@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Header from '../components/Header';
 
 type Hospital = {
   id: number;
@@ -59,12 +60,7 @@ export default function Dashboard({ user, onLogout }: DashboardProps) {
 
   return (
     <div className="admin-container">
-      <header>
-        <h1>Admin Dashboard</h1>
-        <nav>
-          <a href="/">Hospitals</a>
-        </nav>
-      </header>
+      <Header user={user} onLogout={onLogout} />
 
       <section className="hospitals-section">
         <div className="section-header">

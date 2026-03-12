@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Header from '../components/Header';
 
 interface User {
   id: number;
@@ -40,6 +41,7 @@ export default function HospitalDetails({ user, onLogout }: HospitalDetailsProps
 
   return (
     <div className="hospital-details">
+      <Header user={user} onLogout={onLogout} />
       <button onClick={() => navigate('/')}>Back</button>
       <h1>{hospital.name}</h1>
       <p><strong>Address:</strong> {hospital.address}</p>

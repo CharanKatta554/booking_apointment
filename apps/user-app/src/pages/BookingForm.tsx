@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Header from '../components/Header';
 
 interface User {
   id: number;
@@ -51,6 +52,7 @@ export default function BookingForm({ user, onLogout }: BookingFormProps) {
 
   return (
     <div className="booking-form">
+      <Header user={user} onLogout={onLogout} />
       <button onClick={() => navigate('/')}>Back</button>
       <h1>Book Appointment</h1>
       <form onSubmit={handleSubmit}>

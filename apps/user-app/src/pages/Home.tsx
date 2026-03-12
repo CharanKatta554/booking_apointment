@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import Header from "../components/Header";
 
 type Hospital = {
   id: number;
@@ -49,13 +50,7 @@ export default function Home({ user, onLogout }: HomeProps) {
 
   return (
     <div className="home-container">
-      <header>
-        <h1>Hospital Appointment Booking</h1>
-        <nav>
-          <a href="/">Home</a>
-          <a href="/my-appointments">My Appointments</a>
-        </nav>
-      </header>
+      <Header user={user} onLogout={onLogout} />
 
       <section className="health-tips">
         <h2>Health Tips</h2>
