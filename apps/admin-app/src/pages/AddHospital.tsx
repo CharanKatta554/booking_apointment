@@ -1,8 +1,20 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-export default function AddHospital() {
+interface User {
+  id: number;
+  email: string;
+  name: string;
+  phone: string;
+}
+
+interface AddHospitalProps {
+  user?: User | null;
+  onLogout?: () => void;
+}
+
+export default function AddHospital({ user, onLogout }: AddHospitalProps) {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: '',

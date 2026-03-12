@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -12,7 +12,19 @@ type Appointment = {
   createdAt: string;
 };
 
-export default function Dashboard() {
+interface User {
+  id: number;
+  email: string;
+  name: string;
+  phone: string;
+}
+
+interface DashboardProps {
+  user?: User | null;
+  onLogout?: () => void;
+}
+
+export default function Dashboard({ user, onLogout }: DashboardProps) {
   const navigate = useNavigate();
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [loading, setLoading] = useState(true);

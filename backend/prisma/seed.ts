@@ -51,6 +51,31 @@ async function main() {
   });
   console.log(`Created hospital: ${hospital1.name}`);
 
+  const hospital2Password2 = await bcrypt.hash('hospital@123', 10);
+  const hospital2User2 = await prisma.user.create({
+    data: {
+      email: 'nims@hospital.com',
+      password: hospital2Password2,
+      name: 'Nims Hospital',
+      phone: '9000000002',
+      role: 'HOSPITAL',
+    },
+  });
+
+  const hospital2 = await prisma.hospital.create({
+    data: {
+      userId: hospital2User2.id,
+      name: 'Nims Hospital',
+      address: '123 Medical Street, Delhi',
+      city: 'Delhi',
+      pincode: '400001',
+      opFee: 500,
+      phone: '9000000002',
+      email: 'nims@hospital.com',
+    },
+  });
+  console.log(`Created hospital: ${hospital2.name}`);
+
   // Create sample users
   const user1 = await prisma.user.create({
     data: {

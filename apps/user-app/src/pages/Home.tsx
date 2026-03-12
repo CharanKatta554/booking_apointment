@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 
 type Hospital = {
@@ -9,7 +9,19 @@ type Hospital = {
   opFee: number;
 };
 
-export default function Home() {
+interface User {
+  id: number;
+  email: string;
+  name: string;
+  phone: string;
+}
+
+interface HomeProps {
+  user?: User | null;
+  onLogout?: () => void;
+}
+
+export default function Home({ user, onLogout }: HomeProps) {
   const [hospitals, setHospitals] = useState<Hospital[]>([]);
   const [city, setCity] = useState("");
   const [loading, setLoading] = useState(false);
