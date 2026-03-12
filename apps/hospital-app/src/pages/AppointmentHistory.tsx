@@ -20,6 +20,8 @@ interface User {
   email: string;
   name: string;
   phone: string;
+  role?: string;
+  hospitalId?: number;
 }
 
 interface AppointmentHistoryProps {
@@ -40,10 +42,14 @@ export default function AppointmentHistory({ user, onLogout }: AppointmentHistor
   const loadAppointmentHistory = async () => {
     setLoading(true);
     try {
-      const hospitalId = 1; // TODO: Get from auth context
+      if (!user?.hospitalId) {
+        console.error('Hospital ID not found in user data');
+        setLoading(false);
+        return;
+      }
 
       const response = await axios.get<Appointment[]>(
-        `/api/appointments/hospital/${hospitalId}`
+        `/api/appointments/hospital/${user.hospitalId}`
       );
 
       setAppointments(response.data);

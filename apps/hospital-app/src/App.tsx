@@ -11,6 +11,8 @@ interface User {
   email: string;
   name: string;
   phone: string;
+  role?: string;
+  hospitalId?: number;
 }
 
 function App() {

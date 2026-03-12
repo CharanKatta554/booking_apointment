@@ -17,6 +17,8 @@ interface User {
   email: string;
   name: string;
   phone: string;
+  role?: string;
+  hospitalId?: number;
 }
 
 interface DashboardProps {
@@ -36,10 +38,14 @@ export default function Dashboard({ user, onLogout }: DashboardProps) {
   const loadTodayAppointments = async () => {
     setLoading(true);
     try {
-      const hospitalId = 1; // TODO: Get from auth context
+      if (!user?.hospitalId) {
+        console.error('Hospital ID not found in user data');
+        setLoading(false);
+        return;
+      }
 
       const response = await axios.get<Appointment[]>(
-        `/api/appointments/hospital/${hospitalId}`
+        `/api/appointments/hospital/${user.hospitalId}`
       );
 
       const today = new Date().toDateString();

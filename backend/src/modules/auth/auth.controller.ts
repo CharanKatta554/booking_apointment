@@ -77,15 +77,26 @@ export class AuthController {
       email: user.email,
     });
 
-    return {
+    const response: any = {
       message: 'Login successful',
       user: {
         id: user.id,
         email: user.email,
         name: user.name,
         phone: user.phone,
+        role: user.role,
       },
       ...token,
     };
+
+    // If hospital user, fetch and include hospital ID
+    if (user.role === 'HOSPITAL') {
+      const hospital = await this.authService.getHospitalByUserId(user.id);
+      if (hospital) {
+        response.user.hospitalId = hospital.id;
+      }
+    }
+
+    return response;
   }
 }

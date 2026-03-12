@@ -39,4 +39,12 @@ export class AuthService {
     return isUserPresent;
   }
 
+  async getHospitalByUserId(userId: number) {
+    return this.prisma.hospital.findUnique({
+      where: {
+        userId,
+      },
+    });
+  }
+
 }

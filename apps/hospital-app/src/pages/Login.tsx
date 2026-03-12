@@ -9,6 +9,8 @@ interface LoginResponse {
     email: string;
     name: string;
     phone: string;
+    role?: string;
+    hospitalId?: number;
   };
   access_token: string;
 }
