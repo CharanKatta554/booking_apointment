@@ -21,12 +21,14 @@ export default function BookingForm({ user, onLogout }: BookingFormProps) {
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
+    age: '',
+    gender: '',
     phone: '',
     address: '',
   });
   const [loading, setLoading] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
@@ -37,6 +39,7 @@ export default function BookingForm({ user, onLogout }: BookingFormProps) {
       const userId = 1; // TODO: Get from auth context
       await axios.post('/api/appointments', {
         ...formData,
+        age: parseInt(formData.age),
         userId,
         hospitalId: parseInt(id!),
       });
@@ -75,6 +78,32 @@ export default function BookingForm({ user, onLogout }: BookingFormProps) {
             onChange={handleChange}
             required
           />
+        </div>
+        <div>
+          <label>Age</label>
+          <input
+            type="number"
+            name="age"
+            value={formData.age}
+            onChange={handleChange}
+            required
+            min="1"
+            max="150"
+          />
+        </div>
+        <div>
+          <label>Gender</label>
+          <select
+            name="gender"
+            value={formData.gender}
+            onChange={handleChange}
+            required
+          >
+            <option value="">Select Gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+          </select>
         </div>
         <div>
           <label>Phone Number</label>

@@ -27,8 +27,10 @@ async function main() {
 
   // Create sample hospitals
   const hospital1Password = await bcrypt.hash('hospital@123', 10);
-  const hospital1User = await prisma.user.create({
-    data: {
+  const hospital1User = await prisma.user.upsert({
+    where: { email: 'apollo@hospital.com' },
+    update: {},
+    create: {
       email: 'apollo@hospital.com',
       password: hospital1Password,
       name: 'Apollo Hospital',
@@ -37,8 +39,10 @@ async function main() {
     },
   });
 
-  const hospital1 = await prisma.hospital.create({
-    data: {
+  const hospital1 = await prisma.hospital.upsert({
+    where: { email: 'apollo@hospital.com' },
+    update: {},
+    create: {
       userId: hospital1User.id,
       name: 'Apollo Hospital',
       address: '123 Medical Street, Mumbai',
@@ -52,8 +56,10 @@ async function main() {
   console.log(`Created hospital: ${hospital1.name}`);
 
   const hospital2Password2 = await bcrypt.hash('hospital@123', 10);
-  const hospital2User2 = await prisma.user.create({
-    data: {
+  const hospital2User2 = await prisma.user.upsert({
+    where: { email: 'nims@hospital.com' },
+    update: {},
+    create: {
       email: 'nims@hospital.com',
       password: hospital2Password2,
       name: 'Nims Hospital',
@@ -62,8 +68,10 @@ async function main() {
     },
   });
 
-  const hospital2 = await prisma.hospital.create({
-    data: {
+  const hospital2 = await prisma.hospital.upsert({
+    where: { email: 'nims@hospital.com' },
+    update: {},
+    create: {
       userId: hospital2User2.id,
       name: 'Nims Hospital',
       address: '123 Medical Street, Delhi',
@@ -77,8 +85,10 @@ async function main() {
   console.log(`Created hospital: ${hospital2.name}`);
 
   // Create sample users
-  const user1 = await prisma.user.create({
-    data: {
+  const user1 = await prisma.user.upsert({
+    where: { email: 'user1@example.com' },
+    update: {},
+    create: {
       email: 'user1@example.com',
       password: await bcrypt.hash('user@123', 10),
       name: 'John Doe',
@@ -89,15 +99,30 @@ async function main() {
   console.log(`Created user: ${user1.name}`);
 
   // Create sample appointments
-  const appointment = await prisma.appointment.create({
-    data: {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  
+  const appointment = await prisma.appointment.upsert({
+    where: {
+      hospitalId_token_appointmentDate: {
+        hospitalId: hospital1.id,
+        token: 1,
+        appointmentDate: today,
+      },
+    },
+    update: {},
+    create: {
       firstName: 'John',
       lastName: 'Doe',
+      age: 30,
+      gender: 'Male',
       phone: '9111111111',
       address: '456 Patient Lane, Mumbai',
       userId: user1.id,
       hospitalId: hospital1.id,
       status: 'BOOKED',
+      token: 1,
+      appointmentDate: today,
     },
   });
   console.log(`Created appointment with id: ${appointment.id}`);

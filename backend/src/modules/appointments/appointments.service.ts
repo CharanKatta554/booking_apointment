@@ -6,8 +6,36 @@ export class AppointmentsService {
   constructor(private prisma: PrismaService) {}
 
   async create(data: any) {
+    const { firstName, lastName, age, gender, phone, address, userId, hospitalId } = data;
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const lastToken = await this.prisma.appointment.findFirst({
+      where: {
+        hospitalId,
+        appointmentDate: today,
+      },
+      orderBy: {
+        token: 'desc',
+      },
+    });
+
+    const nextToken = lastToken ? lastToken.token + 1 : 1;
+
     return this.prisma.appointment.create({
-      data,
+      data: {
+        token: nextToken,
+        appointmentDate: today,
+        firstName,
+        lastName,
+        age,
+        gender,
+        phone,
+        address,
+        userId,
+        hospitalId,
+      },
       include: { hospital: true, user: true },
     });
   }
