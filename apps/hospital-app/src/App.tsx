@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import AppointmentHistory from './pages/AppointmentHistory';
+import OfflineAppointment from './pages/OfflineAppointment';
 import ProtectedRoute from './components/ProtectedRoute';
 import './App.css';
 
@@ -83,6 +84,14 @@ function App() {
           element={
             <ProtectedRoute isAuthenticated={isAuthenticated}>
               <AppointmentHistory user={user} onLogout={handleLogout} />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/offline-appointment"
+          element={
+            <ProtectedRoute isAuthenticated={isAuthenticated}>
+              <OfflineAppointment user={user} onLogout={handleLogout} />
             </ProtectedRoute>
           }
         />

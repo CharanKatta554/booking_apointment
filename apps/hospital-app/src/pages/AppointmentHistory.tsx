@@ -10,6 +10,8 @@ type Appointment = {
   phone: string;
   status: string;
   createdAt: string;
+  appointmentDate: string;
+  token: number;
 };
 
 type GroupedAppointments = {
@@ -30,21 +32,33 @@ interface AppointmentHistoryProps {
   onLogout?: () => void;
 }
 
-export default function AppointmentHistory({ user, onLogout }: AppointmentHistoryProps) {
+const getLocalDateKey = (date: Date) => {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
+
+export default function AppointmentHistory({
+  user,
+  onLogout,
+}: AppointmentHistoryProps) {
   const navigate = useNavigate();
   const [appointments, setAppointments] = useState<Appointment[]>([]);
-  const [groupedAppointments, setGroupedAppointments] = useState<GroupedAppointments>({});
+  const [groupedAppointments, setGroupedAppointments] =
+    useState<GroupedAppointments>({});
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     loadAppointmentHistory();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const loadAppointmentHistory = async () => {
     setLoading(true);
     try {
       if (!user?.hospitalId) {
-        console.error('Hospital ID not found in user data');
+        console.error("Hospital ID not found in user data");
         setLoading(false);
         return;
       }
@@ -66,13 +80,14 @@ export default function AppointmentHistory({ user, onLogout }: AppointmentHistor
     const grouped: GroupedAppointments = {};
 
     data.forEach((apt) => {
-      const date = new Date(apt.createdAt).toLocaleDateString();
+      const created = new Date(apt.createdAt);
+      const dateKey = getLocalDateKey(created);
 
-      if (!grouped[date]) {
-        grouped[date] = [];
+      if (!grouped[dateKey]) {
+        grouped[dateKey] = [];
       }
 
-      grouped[date].push(apt);
+      grouped[dateKey].push(apt);
     });
 
     setGroupedAppointments(grouped);
@@ -93,7 +108,8 @@ export default function AppointmentHistory({ user, onLogout }: AppointmentHistor
           {Object.entries(groupedAppointments).map(([date, appts]) => (
             <div key={date} className="date-group">
               <h3>
-                {date} – {appts.length} Appointment
+                {new Date(date).toLocaleDateString()} – {appts.length}{" "}
+                Appointment
                 {appts.length !== 1 ? "s" : ""}
               </h3>
 
@@ -107,6 +123,7 @@ export default function AppointmentHistory({ user, onLogout }: AppointmentHistor
                     </p>
                     <p>Phone: {apt.phone}</p>
                     <p>Status: {apt.status}</p>
+                    <p>Token: {apt.token}</p>
                   </div>
                 ))}
               </div>
